@@ -16,7 +16,15 @@ const cases = [
     {
         input: "고양이가 귀여워요.",
         mustInclude: ["고양이", "가", "."]
-    }
+    },
+    {
+        input: "물을 마셔요.",
+        mustInclude: ["물", "을", "."]
+    },
+    {
+        input: "커피를 마셔요.",
+        mustInclude: ["커피", "를", "."]
+    },
 ];
 
 for (const { input, mustInclude } of cases) {

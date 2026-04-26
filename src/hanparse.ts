@@ -39,7 +39,19 @@ const lexicon: Rule[] = [
         type: "grammar",
         meaning: "(Subject particle)",
         note: "Used after nouns ending with a vowel."
-    }
+    },
+    {
+        pattern: "을",
+        type: "grammar",
+        meaning: "(Object particle)",
+        note: "Used after nouns ending with a consonant."
+    },
+    {
+        pattern: "를",
+        type: "grammar",
+        meaning: "(Object particle)",
+        note: "Used after nouns ending with a vowel."
+    },
 ];
 
 /* TODO: Compile the lexicon to a prefix bucket at runtime. */
