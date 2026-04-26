@@ -8,6 +8,14 @@ const cases = [
     {
         input: "이것은 무엇이에요?",
         mustInclude: ["이것", "은", "무엇", "이에요", "?"]
+    },
+    {
+        input: "물이 차요.",
+        mustInclude: ["물", "이", "."]
+    },
+    {
+        input: "고양이가 귀여워요.",
+        mustInclude: ["고양이", "가", "."]
     }
 ];
 

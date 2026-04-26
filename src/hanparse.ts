@@ -19,14 +19,26 @@ const lexicon: Rule[] = [
     {
         pattern: "은",
         type: "grammar",
-        meaning: "(Subject particle)",
-        note: "Function words, no translation needed."
+        meaning: "(Topic particle)",
+        note: "Used after nouns ending with a consonant."
     },
     {
         pattern: "는",
         type: "grammar",
+        meaning: "(Topic particle)",
+        note: "Used after nouns ending with a vowel."
+    },
+    {
+        pattern: "이",
+        type: "grammar",
         meaning: "(Subject particle)",
-        note: "Function words, no translation needed."
+        note: "Used after nouns ending with a consonant."
+    },
+    {
+        pattern: "가",
+        type: "grammar",
+        meaning: "(Subject particle)",
+        note: "Used after nouns ending with a vowel."
     }
 ];
 
@@ -36,29 +48,16 @@ const parse = (sentence : String) => {
     const results = [];
     let i = sentence.length;
 
+    let isBound = false;
     while (i > 0) {
         /* Parse punctuation marks. */
         const ch = sentence.substring(i - 1, i);
         if (/[.?!;]/.test(ch)) {
             results.unshift({ pattern: ch, type: "punctuation" });
             i--;
+            isBound = true;
             continue;
         }
-
-        /* Parse phrases and grammar words. */
-        let found = false;
-        for (const rule of lexicon) {
-            const start = i - rule.pattern.length;
-
-            if (start >= 0 && sentence.substring(start, i) === rule.pattern) {
-                results.unshift(rule);
-                i = start;
-                found = true;
-                break;
-            }
-        }
-
-        if (found) continue;
 
         /* Parse space */
         const chSpace = sentence.substring(i - 1, i);
@@ -71,7 +70,22 @@ const parse = (sentence : String) => {
                 pattern: sentence.substring(i, endSpace),
                 type: "space"
             });
+            isBound = true;
             continue;
+        }
+
+        /* Parse phrases and grammar words. */
+        if (isBound) {
+            for (const rule of lexicon) {
+                const start = i - rule.pattern.length;
+
+                if (start >= 0 && sentence.substring(start, i) === rule.pattern) {
+                    results.unshift(rule);
+                    i = start;
+                    isBound = false;
+                    break;
+                }
+            }
         }
 
         /* Parse general text. */
@@ -83,6 +97,7 @@ const parse = (sentence : String) => {
             pattern: sentence.substring(i, endText),
             type: "text"
         });
+        isBound = true;
     }
 
     return results;

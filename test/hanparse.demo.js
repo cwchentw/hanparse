@@ -2,7 +2,9 @@ import { execSync } from "child_process";
 
 const cases = [
     "저것은 자동차예요.",
-    "이것은 무엇이에요?"
+    "이것은 무엇이에요?",
+    "물이 차요.",
+    "고양이가 귀여워요."
 ];
 
 for (const sentence of cases) {
