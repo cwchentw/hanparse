@@ -25,6 +25,26 @@ const cases = [
         input: "커피를 마셔요.",
         mustInclude: ["커피", "를", "."]
     },
+    {
+        input: "학교에 가요.",
+        mustInclude: ["학교", "에", "."]
+    },
+    {
+        input: "학교에서 공부해요.",
+        mustInclude: ["학교", "에서", "."]
+    },
+    {
+        input: "저도 가요.",
+        mustInclude: ["저", "도", "."]
+    },
+    {
+        input: "물만 마셔요.",
+        mustInclude: ["물", "만", "."]
+    },
+    {
+        input: "친구의 이름이에요.",
+        mustInclude: ["친구", "의", "이름", "이에요", "."]
+    }
 ];
 
 for (const { input, mustInclude } of cases) {

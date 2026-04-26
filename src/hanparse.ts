@@ -52,6 +52,36 @@ const lexicon: Rule[] = [
         meaning: "(Object particle)",
         note: "Used after nouns ending with a vowel."
     },
+    {
+        pattern: "에",
+        type: "grammar",
+        meaning: "(Location / time particle)",
+        note: "Indicates destination or time (to / at / on)."
+    },
+    {
+        pattern: "에서",
+        type: "grammar",
+        meaning: "(Location particle)",
+        note: "Indicates where an action takes place."
+    },
+    {
+        pattern: "도",
+        type: "grammar",
+        meaning: "(Also / too)",
+        note: "Adds the meaning 'also' or 'too'."
+    },
+    {
+        pattern: "의",
+        type: "grammar",
+        meaning: "(Possessive particle)",
+        note: "Shows possession, similar to 'of' or '’s'."
+    },
+    {
+        pattern: "만",
+        type: "grammar",
+        meaning: "(Only)",
+        note: "Limits the meaning to 'only'."
+    }
 ];
 
 /* TODO: Compile the lexicon to a prefix bucket at runtime. */
