@@ -13,6 +13,8 @@
 
     "moduleResolution": "bundler",
     "verbatimModuleSyntax": true,
+    "erasableSyntaxOnly": true,
+    "isolatedModules": true,
 
     "strict": true,
     "skipLibCheck": true,
