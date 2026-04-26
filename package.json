@@ -1,0 +1,13 @@
+{
+  "dependencies": {
+    "@types/node": "^25.6.0"
+  },
+  "name": "hanparse",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}
