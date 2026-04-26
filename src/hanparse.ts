@@ -9,12 +9,14 @@ const lexicon: Rule[] = [
     {
         pattern: "이에요",
         type: "grammar",
-        meaning: "am/are/is ..."
+        meaning: "am/are/is ...",
+        note: "Used after nouns ending with a consonant."
     },
     {
         pattern: "예요",
         type: "grammar",
-        meaning: "am/are/is ..."
+        meaning: "am/are/is ...",
+        note: "Used after nouns ending with a vowel."
     },
     {
         pattern: "은",
