@@ -9,6 +9,7 @@
 
     "moduleDetection": "force",
     "allowJs": false,
+    "declaration": true,
     "types": ["node", "bun"],
 
     "moduleResolution": "bundler",
