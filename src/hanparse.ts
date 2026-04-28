@@ -31,6 +31,12 @@ const lexicon: Rule[] = [
         note: "Indicates where an action takes place."
     },
     {
+        "pattern": "이고",
+        "type": "grammar",
+        "meaning": "and (copula)",
+        "note": "이다 + 고, used after nouns."
+    },
+    {
         pattern: "은",
         type: "grammar",
         meaning: "(Topic particle)",
@@ -89,6 +95,12 @@ const lexicon: Rule[] = [
         type: "grammar",
         meaning: "(Only)",
         note: "Limits the meaning to 'only'."
+    },
+    {
+        "pattern": "고",
+        "type": "grammar",
+        "meaning": "and",
+        "note": "Used after verbs or adjectives to connect clauses."
     }
 ];
 
