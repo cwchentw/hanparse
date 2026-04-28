@@ -44,6 +44,10 @@ const cases = [
     {
         input: "친구의 이름이에요.",
         mustInclude: ["친구", "의", "이름", "이에요", "."]
+    },
+    {
+        input: "아이같이 웃어요.",
+        mustInclude: ["아이", "같이", "."]
     }
 ];
 

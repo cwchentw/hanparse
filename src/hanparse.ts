@@ -19,6 +19,18 @@ const lexicon: Rule[] = [
         note: "Used after nouns ending with a vowel."
     },
     {
+        pattern: "같이",
+        type: "grammar",
+        meaning: "like / as / together with",
+        note: "Can indicate similarity or manner when attached to a noun (N+같이), but can also mean 'together with' depending on spacing and context."
+    },
+    {
+        pattern: "에서",
+        type: "grammar",
+        meaning: "(Location particle)",
+        note: "Indicates where an action takes place."
+    },
+    {
         pattern: "은",
         type: "grammar",
         meaning: "(Topic particle)",
@@ -59,12 +71,6 @@ const lexicon: Rule[] = [
         type: "grammar",
         meaning: "(Location / time particle)",
         note: "Indicates destination or time (to / at / on)."
-    },
-    {
-        pattern: "에서",
-        type: "grammar",
-        meaning: "(Location particle)",
-        note: "Indicates where an action takes place."
     },
     {
         pattern: "도",
