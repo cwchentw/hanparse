@@ -3,168 +3,197 @@ interface Rule {
     type: string;
     meaning: string;
     note?: string;
+    requiresBatchim?: boolean; // true: needs batchim, false: no batchim, undefined: both
+}
+
+/**
+ * Checks if a Korean character has a final consonant (Batchim).
+ */
+const hasBatchim = (char: string): boolean => {
+    if (!char) return false;
+    const code = char.charCodeAt(0);
+    if (code < 0xAC00 || code > 0xD7A3) return false;
+    return (code - 0xAC00) % 28 !== 0;
 };
 
 const lexicon: Rule[] = [
-    {
-        pattern: "이에요",
-        type: "grammar",
-        meaning: "am/are/is ...",
-        note: "Used after nouns ending with a consonant."
+    // --- Sentence Endings (Copula) ---
+    { 
+        pattern: "이에요", 
+        type: "grammar", 
+        meaning: "am/are/is (polite)", 
+        requiresBatchim: true, 
+        note: "Polite ending used after nouns ending with a consonant (Batchim)." 
     },
-    {
-        pattern: "예요",
-        type: "grammar",
-        meaning: "am/are/is ...",
-        note: "Used after nouns ending with a vowel."
+    { 
+        pattern: "예요", 
+        type: "grammar", 
+        meaning: "am/are/is (polite)", 
+        requiresBatchim: false, 
+        note: "Polite ending used after nouns ending with a vowel (No Batchim)." 
     },
-    {
-        pattern: "은",
-        type: "grammar",
-        meaning: "(Topic particle)",
-        note: "Used after nouns ending with a consonant."
+
+    // --- Particles (Josa) ---
+    { 
+        pattern: "은", 
+        type: "grammar", 
+        meaning: "(Topic particle)", 
+        requiresBatchim: true, 
+        note: "Used after nouns ending with a consonant to indicate the topic or contrast." 
     },
-    {
-        pattern: "는",
-        type: "grammar",
-        meaning: "(Topic particle)",
-        note: "Used after nouns ending with a vowel."
+    { 
+        pattern: "는", 
+        type: "grammar", 
+        meaning: "(Topic particle)", 
+        requiresBatchim: false, 
+        note: "Used after nouns ending with a vowel to indicate the topic or contrast." 
     },
-    {
-        pattern: "이",
-        type: "grammar",
-        meaning: "(Subject particle)",
-        note: "Used after nouns ending with a consonant."
+    { 
+        pattern: "이", 
+        type: "grammar", 
+        meaning: "(Subject particle)", 
+        requiresBatchim: true, 
+        note: "Used after nouns ending with a consonant to mark the subject of a sentence." 
     },
-    {
-        pattern: "가",
-        type: "grammar",
-        meaning: "(Subject particle)",
-        note: "Used after nouns ending with a vowel."
+    { 
+        pattern: "가", 
+        type: "grammar", 
+        meaning: "(Subject particle)", 
+        requiresBatchim: false, 
+        note: "Used after nouns ending with a vowel to mark the subject of a sentence." 
     },
-    {
-        pattern: "을",
-        type: "grammar",
-        meaning: "(Object particle)",
-        note: "Used after nouns ending with a consonant."
+    { 
+        pattern: "을", 
+        type: "grammar", 
+        meaning: "(Object particle)", 
+        requiresBatchim: true, 
+        note: "Used after nouns ending with a consonant to mark the direct object." 
     },
-    {
-        pattern: "를",
-        type: "grammar",
-        meaning: "(Object particle)",
-        note: "Used after nouns ending with a vowel."
+    { 
+        pattern: "를", 
+        type: "grammar", 
+        meaning: "(Object particle)", 
+        requiresBatchim: false, 
+        note: "Used after nouns ending with a vowel to mark the direct object." 
     },
-    {
-        pattern: "에서",
-        type: "grammar",
-        meaning: "(Location particle)",
-        note: "Indicates where an action takes place."
+    { 
+        pattern: "에서", 
+        type: "grammar", 
+        meaning: "at / from", 
+        note: "Indicates the location where an action takes place or a starting point." 
     },
-    {
-        pattern: "에",
-        type: "grammar",
-        meaning: "(Location / time particle)",
-        note: "Indicates destination or time (to / at / on)."
+    { 
+        pattern: "에", 
+        type: "grammar", 
+        meaning: "to / at / on", 
+        note: "Indicates destination, location of existence, or a specific time." 
     },
-    {
-        pattern: "같이",
-        type: "grammar",
-        meaning: "like / as / together with",
-        note: "Can indicate similarity or manner when attached to a noun (N+같이), but can also mean 'together with' depending on spacing and context."
+    { 
+        pattern: "도", 
+        type: "grammar", 
+        meaning: "also / too", 
+        note: "Additive particle used to mean 'also' or 'too', often replacing subject/object particles." 
     },
-    {
-        pattern: "도",
-        type: "grammar",
-        meaning: "(Also / too)",
-        note: "Adds the meaning 'also' or 'too'."
+    { 
+        pattern: "의", 
+        type: "grammar", 
+        meaning: "(Possessive)", 
+        note: "Shows possession, equivalent to 's or 'of' in English." 
     },
-    {
-        pattern: "의",
-        type: "grammar",
-        meaning: "(Possessive particle)",
-        note: "Shows possession, similar to 'of' or '’s'."
+    { 
+        pattern: "만", 
+        type: "grammar", 
+        meaning: "only", 
+        note: "Limiting particle used to express 'only' or 'just'." 
     },
-    {
-        pattern: "만",
-        type: "grammar",
-        meaning: "(Only)",
-        note: "Limits the meaning to 'only'."
+    { 
+        pattern: "같이", 
+        type: "grammar", 
+        meaning: "like / together", 
+        note: "Can mean 'like/as' when attached to a noun, or 'together' as an adverb." 
     },
-    {
-        "pattern": "이고",
-        "type": "grammar",
-        "meaning": "and (copula)",
-        "note": "이다 + 고, used after nouns."
+
+    // --- Connectives ---
+    { 
+        pattern: "이고", 
+        type: "grammar", 
+        meaning: "is and...", 
+        note: "Connective form of the copula (이다) used to link nouns." 
     },
-    {
-        "pattern": "고",
-        "type": "grammar",
-        "meaning": "and",
-        "note": "Used after verbs or adjectives to connect clauses."
+    { 
+        pattern: "고", 
+        type: "grammar", 
+        meaning: "and / then", 
+        note: "Connective ending for verbs and adjectives to link clauses." 
     },
-    {
-        "pattern": "다가",
-        "type": "connective_ending",
-        "meaning": "while / transfer",
-        "note": "Connects two verbs. Action A is interrupted or transitions to Action B."
+    { 
+        pattern: "다가", 
+        type: "connective_ending", 
+        meaning: "while / transition", 
+        note: "Indicates a transition from one action/state to another during the process." 
     },
-    {
-        "pattern": "에다가",
-        "type": "particle",
-        "meaning": "onto / in addition to",
-        "note": "Attach to Nouns (inanimate). Emphasizes the location or adding something to a target."
+    { 
+        pattern: "에다가", 
+        type: "particle", 
+        meaning: "onto / in addition to", 
+        note: "Added to nouns to emphasize a location of an action or an addition to a target." 
     },
-    {
-        "pattern": "에게다가",
-        "type": "particle",
-        "meaning": "to (someone)",
-        "note": "Attach to Nouns (people/animals). Emphasizes the recipient of an action."
+    { 
+        pattern: "에게다가", 
+        type: "particle", 
+        meaning: "to (someone)", 
+        note: "Emphasizes the recipient of an action for animate beings." 
     },
-    {
-        "pattern": "한테다가",
-        "type": "particle",
-        "meaning": "to (someone)",
-        "note": "Colloquial version of 에게다가. Attach to Nouns."
+    { 
+        pattern: "한테다가", 
+        type: "particle", 
+        meaning: "to (someone, colloquial)", 
+        note: "The colloquial version of 에게다가." 
     },
-    {
-        "pattern": "는 데다가",
-        "type": "grammar_structure",
-        "meaning": "not only... but also / in addition to",
-        "note": "Used after Verbs to describe cumulative situations."
+    { 
+        pattern: "는 데다가", 
+        type: "grammar_structure", 
+        meaning: "not only... but also", 
+        requiresBatchim: false, 
+        note: "Used after verb stems without a batchim to express cumulative addition." 
     },
-    {
-        "pattern": "은 데다가",
-        "type": "grammar_structure",
-        "meaning": "not only... but also / in addition to",
-        "note": "Used after Verbs/Adjectives to describe cumulative situations."
+    { 
+        pattern: "은 데다가", 
+        type: "grammar_structure", 
+        meaning: "not only... but also", 
+        requiresBatchim: true, 
+        note: "Used after verb stems with a batchim or in past tense." 
     },
-    {
-        "pattern": "인 데다가",
-        "type": "grammar_structure",
-        "meaning": "not only... but also / in addition to",
-        "note": "Used after Nouns to describe cumulative situations."
+    { 
+        pattern: "인 데다가", 
+        type: "grammar_structure", 
+        meaning: "not only... but also", 
+        note: "Used after nouns (Noun + 이다) to indicate addition." 
     },
-    {
-        "pattern": "데다가",
-        "type": "grammar_structure",
-        "meaning": "not only... but also / in addition to",
-        "note": "Used after Verbs/Adjectives to describe cumulative situations."
+    { 
+        pattern: "데다가", 
+        type: "grammar_structure", 
+        meaning: "in addition to", 
+        note: "General structure used to describe adding something to a situation." 
     }
 ];
 
 type LexiconBucket = Record<string, Rule[]>;
 
-const bucket: LexiconBucket = lexicon.reduce((acc, rule) => {
-    const lastChar = rule.pattern.slice(-1);
-    if (!acc[lastChar]) acc[lastChar] = [];
-    acc[lastChar].push(rule);
-    return acc;
-}, {} as LexiconBucket);
+const buildBucket = (rules: Rule[]): LexiconBucket => {
+    const bucket: LexiconBucket = {};
+    rules.forEach(rule => {
+        const lastChar = rule.pattern.slice(-1);
+        if (!bucket[lastChar]) bucket[lastChar] = [];
+        bucket[lastChar].push(rule);
+    });
+    for (const key in bucket) {
+        bucket[key] && bucket[key].sort((a, b) => b.pattern.length - a.pattern.length);
+    }
+    return bucket;
+};
 
-for (const key in bucket) {
-    if (bucket[key])
-        bucket[key].sort((a, b) => b.pattern.length - a.pattern.length);
-}
+let currentBucket = buildBucket(lexicon);
 
 const parse = (sentence: string) => {
     const results = [];
@@ -172,12 +201,10 @@ const parse = (sentence: string) => {
     let isBound = false;
 
     while (i > 0) {
-        const lastChar = sentence[i - 1];        
+        const lastChar = sentence[i - 1];
+        if (typeof lastChar === 'undefined') break;
 
-        if (typeof lastChar === 'undefined')
-            break;
-
-        /* Parse punctuation marks */
+        /* Punctuation */
         if (/[.?!;]/.test(lastChar)) {
             results.push({ pattern: lastChar, type: "punctuation" });
             i--;
@@ -185,49 +212,56 @@ const parse = (sentence: string) => {
             continue;
         }
 
-        /* Parse space */
+        /* Spaces */
         if (lastChar === " ") {
             const endSpace = i;
-            while (i > 0 && sentence[i - 1] === " ") {
-                i--;
-            }
-            results.push({
-                pattern: sentence.substring(i, endSpace),
-                type: "space"
-            });
+            while (i > 0 && sentence[i - 1] === " ") i--;
+            results.push({ pattern: sentence.substring(i, endSpace), type: "space" });
             isBound = true;
             continue;
         }
 
-        /* Parse phrases and grammar words using Bucket */
+        /* Grammar Matching with Batchim Validation */
         let matched = false;
-        if (isBound && bucket[lastChar]) {
-            for (const rule of bucket[lastChar]) {
+        if (isBound && currentBucket[lastChar]) {
+            for (const rule of currentBucket[lastChar]) {
                 const start = i - rule.pattern.length;
                 if (start >= 0 && sentence.substring(start, i) === rule.pattern) {
-                    results.push(rule);
-                    i = start;
-                    isBound = false;
-                    matched = true;
-                    break;
+                    
+                    /* Batchim Validation */
+                    let batchimMatch = true;
+                    if (typeof rule.requiresBatchim !== 'undefined') {
+                        const prevChar = sentence[start - 1];
+                        if (prevChar && prevChar !== " ") {
+                            const hasB = hasBatchim(prevChar);
+                            batchimMatch = (hasB === rule.requiresBatchim);
+                        } else {
+                            batchimMatch = false; 
+                        }
+                    }
+
+                    if (batchimMatch) {
+                        results.push(rule);
+                        i = start;
+                        isBound = false;
+                        matched = true;
+                        break;
+                    }
                 }
             }
         }
 
         if (matched) continue;
 
-        /* Parse general text */
+        /* Text Fallback */
         const endText = i;
-        while (i > 0 && sentence[i - 1] !== " ") {
+        while (i > 0 && sentence[i - 1] !== " " && !/[.?!;]/.test(sentence[i-1] as string)) {
             i--;
         }
         
         const textPattern = sentence.substring(i, endText);
         if (textPattern) {
-            results.push({
-                pattern: textPattern,
-                type: "text"
-            });
+            results.push({ pattern: textPattern, type: "text" });
         }
         isBound = true;
     }
@@ -236,19 +270,8 @@ const parse = (sentence: string) => {
 };
 
 const addRule = (rule: Rule) => {
-    if (!rule || typeof rule.pattern !== "string") {
-        throw new Error("Invalid rule: pattern must be a string");
-    }
-
-    if (rule.pattern.length === 0) {
-        throw new Error("Invalid rule: empty pattern");
-    }
-
     lexicon.push({ ...rule });
-
-    lexicon.sort((a, b) =>
-        (b.pattern || "").length - (a.pattern || "").length
-    );
+    currentBucket = buildBucket(lexicon);
 };
 
 const getLexicon = () =>
@@ -280,4 +303,4 @@ if (import.meta.main) {
 }
 
 export default hanparse;
-export { parse, addRule, getLexicon, dev };
+export { parse, addRule, getLexicon, hasBatchim, dev };
