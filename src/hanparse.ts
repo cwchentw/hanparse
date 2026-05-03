@@ -101,6 +101,54 @@ const lexicon: Rule[] = [
         "type": "grammar",
         "meaning": "and",
         "note": "Used after verbs or adjectives to connect clauses."
+    },
+    {
+        "pattern": "다가",
+        "type": "connective_ending",
+        "meaning": "while / transfer",
+        "note": "Connects two verbs. Action A is interrupted or transitions to Action B."
+    },
+    {
+        "pattern": "에다가",
+        "type": "particle",
+        "meaning": "onto / in addition to",
+        "note": "Attach to Nouns (inanimate). Emphasizes the location or adding something to a target."
+    },
+    {
+        "pattern": "에게다가",
+        "type": "particle",
+        "meaning": "to (someone)",
+        "note": "Attach to Nouns (people/animals). Emphasizes the recipient of an action."
+    },
+    {
+        "pattern": "한테다가",
+        "type": "particle",
+        "meaning": "to (someone)",
+        "note": "Colloquial version of 에게다가. Attach to Nouns."
+    },
+    {
+        "pattern": "는 데다가",
+        "type": "grammar_structure",
+        "meaning": "not only... but also / in addition to",
+        "note": "Used after Verbs to describe cumulative situations."
+    },
+    {
+        "pattern": "은 데다가",
+        "type": "grammar_structure",
+        "meaning": "not only... but also / in addition to",
+        "note": "Used after Verbs/Adjectives to describe cumulative situations."
+    },
+    {
+        "pattern": "인 데다가",
+        "type": "grammar_structure",
+        "meaning": "not only... but also / in addition to",
+        "note": "Used after Nouns to describe cumulative situations."
+    },
+    {
+        "pattern": "데다가",
+        "type": "grammar_structure",
+        "meaning": "not only... but also / in addition to",
+        "note": "Used after Verbs/Adjectives to describe cumulative situations."
     }
 ];
 
