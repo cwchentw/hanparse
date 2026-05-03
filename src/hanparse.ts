@@ -104,31 +104,46 @@ const lexicon: Rule[] = [
     }
 ];
 
-/* TODO: Compile the lexicon to a prefix bucket at runtime. */
+type LexiconBucket = Record<string, Rule[]>;
 
-const parse = (sentence : String) => {
+const bucket: LexiconBucket = lexicon.reduce((acc, rule) => {
+    const lastChar = rule.pattern.slice(-1);
+    if (!acc[lastChar]) acc[lastChar] = [];
+    acc[lastChar].push(rule);
+    return acc;
+}, {} as LexiconBucket);
+
+for (const key in bucket) {
+    if (bucket[key])
+        bucket[key].sort((a, b) => b.pattern.length - a.pattern.length);
+}
+
+const parse = (sentence: string) => {
     const results = [];
     let i = sentence.length;
-
     let isBound = false;
+
     while (i > 0) {
-        /* Parse punctuation marks. */
-        const ch = sentence.substring(i - 1, i);
-        if (/[.?!;]/.test(ch)) {
-            results.unshift({ pattern: ch, type: "punctuation" });
+        const lastChar = sentence[i - 1];        
+
+        if (typeof lastChar === 'undefined')
+            break;
+
+        /* Parse punctuation marks */
+        if (/[.?!;]/.test(lastChar)) {
+            results.push({ pattern: lastChar, type: "punctuation" });
             i--;
             isBound = true;
             continue;
         }
 
         /* Parse space */
-        const chSpace = sentence.substring(i - 1, i);
-        if (chSpace === " ") {
+        if (lastChar === " ") {
             const endSpace = i;
-            while (i > 0 && sentence.substring(i - 1, i) === " ") {
+            while (i > 0 && sentence[i - 1] === " ") {
                 i--;
             }
-            results.unshift({
+            results.push({
                 pattern: sentence.substring(i, endSpace),
                 type: "space"
             });
@@ -136,33 +151,40 @@ const parse = (sentence : String) => {
             continue;
         }
 
-        /* Parse phrases and grammar words. */
-        if (isBound) {
-            for (const rule of lexicon) {
+        /* Parse phrases and grammar words using Bucket */
+        let matched = false;
+        if (isBound && bucket[lastChar]) {
+            for (const rule of bucket[lastChar]) {
                 const start = i - rule.pattern.length;
-
                 if (start >= 0 && sentence.substring(start, i) === rule.pattern) {
-                    results.unshift(rule);
+                    results.push(rule);
                     i = start;
                     isBound = false;
+                    matched = true;
                     break;
                 }
             }
         }
 
-        /* Parse general text. */
+        if (matched) continue;
+
+        /* Parse general text */
         const endText = i;
-        while (i > 0 && sentence.substring(i - 1, i) !== " ") {
+        while (i > 0 && sentence[i - 1] !== " ") {
             i--;
         }
-        results.unshift({
-            pattern: sentence.substring(i, endText),
-            type: "text"
-        });
+        
+        const textPattern = sentence.substring(i, endText);
+        if (textPattern) {
+            results.push({
+                pattern: textPattern,
+                type: "text"
+            });
+        }
         isBound = true;
     }
 
-    return results;
+    return results.reverse();
 };
 
 const addRule = (rule: Rule) => {
@@ -185,7 +207,7 @@ const getLexicon = () =>
     lexicon.map((entry) => ({ ...entry }));
 
 const dev = Object.freeze({
-    format (sentence : String) {
+    format (sentence : string) {
         return JSON.stringify(parse(sentence), null, 2);
     }
 });
