@@ -26,6 +26,14 @@ const cases = [
         mustInclude: ["커피", "를", "."]
     },
     {
+        input: "책과 펜",
+        mustInclude: ["책", "과", "펜"]
+    },
+    {
+        input: "사과와 배",
+        mustInclude: ["사과", "와", "배"]
+    },
+    {
         input: "학교에 가요.",
         mustInclude: ["학교", "에", "."]
     },

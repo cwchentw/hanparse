@@ -55,6 +55,20 @@
         "requiresBatchim": false, 
         "note": "Used after nouns ending with a vowel to mark the direct object." 
     },
+    {
+        "pattern": "과",
+        "type": "grammar",
+        "meaning": "and",
+        "requiresBatchim": true,
+        "note": "Used after nouns ending with a consonant to connect nouns."
+    },
+    {
+        "pattern": "와",
+        "type": "grammar",
+        "meaning": "and",
+        "requiresBatchim": false,
+        "note": "Used after nouns ending with a vowel to connect nouns."
+    },
     { 
         "pattern": "에서", 
         "type": "grammar", 
