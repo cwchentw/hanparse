@@ -42,7 +42,7 @@ A lightweight, rule-based Korean sentence parser written in TypeScript.
 
 The primary reason `hanparse` is open-source is that **one person cannot map the entire Korean language alone**. Korean features rich and complex ending particles (Eomi) and postpositions (Josa). 
 
-If you want to add new rules (like handling `예요`, `ㅂ니다`, etc.), you don't even need to understand the core algorithm! Just head over to the top of the main TypeScript file, copy an existing rule block, and adapt it. PRs for new rules or edge cases are highly welcome.
+If you want to add new rules (such as handling `예요`, `ㅂ니다`, etc.), you don't even need to touch the core logic. Simply open the `src/rules.json` file, copy an existing rule object, and adapt it to your needs. Pull Requests for new rules or edge cases are highly welcome!
 
 ## Author
 
