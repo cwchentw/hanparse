@@ -54,18 +54,6 @@ DISTRIBUTIONS
       Text::ParseWords 0
       perl 5.006001
       version 0.87
-  Text-CSV-2.06
-    pathname: I/IS/ISHIGAKI/Text-CSV-2.06.tar.gz
-    provides:
-      Text::CSV 2.06
-      Text::CSV::ErrorDiag 2.06
-      Text::CSV_PP 2.06
-    requirements:
-      ExtUtils::MakeMaker 0
-      IO::Handle 0
-      Test::Harness 0
-      Test::More 0.92
-      perl 5.006001
   Tie-IxHash-1.23
     pathname: C/CH/CHORNY/Tie-IxHash-1.23.tar.gz
     provides:
