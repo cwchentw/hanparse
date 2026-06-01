@@ -21,10 +21,10 @@ release: types typecheck json-minify
 
 debug: build
 
-smoke: build
+smoke: release
 	bun test/hanparse.smoke.js
 
-demo: build
+demo: release
 	bun test/hanparse.demo.js
 
 types:
