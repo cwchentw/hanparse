@@ -9,14 +9,14 @@ ENTRY := src/hanparse.ts
 TSC := bunx tsc
 ESBUILD := bunx esbuild
 
-.PHONY: all build release debug smoke demo types typecheck clean
+.PHONY: all build release debug smoke demo types typecheck json-minify clean
 
 all: build
 
 build: typecheck
 	$(TSC) -p tsconfig.json
 
-release: types typecheck
+release: types typecheck json-minify
 	$(ESBUILD) $(ENTRY) --outdir=$(OUTDIR) --format=esm --minify
 
 debug: build
@@ -32,6 +32,9 @@ types:
 
 typecheck:
 	$(TSC) --noEmit -p tsconfig.json
+
+json-minify:
+	./json-minify
 
 clean:
 	$(RMDIR) $(OUTDIR)

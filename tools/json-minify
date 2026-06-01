@@ -1,0 +1,45 @@
+#!/usr/bin/env perl
+
+use v5.36;
+
+use FindBin;
+use local::lib "$FindBin::Bin/../local";
+
+use utf8;
+use open ':std', ':encoding(UTF-8)';
+
+use JSON;
+use Tie::IxHash;
+
+(scalar @ARGV) > 0 or die "No JSON file\n";
+
+my $json_file = $ARGV[0];
+(-e $json_file) or die "JSON file not exist: ${json_file}\n";
+
+open my $FH, "<:encoding(utf-8)", $json_file or die "Unable to open rule file: ${json_file}\n";
+
+# Slurp the file.
+my $json_text = do { local $/; <$FH> };
+
+close $FH;
+
+my @rules = @{JSON->new->canonical(0)->decode($json_text)};
+
+my @json_data = ();
+
+for my $rule (@rules) {
+    tie my %rule_data, 'Tie::IxHash';
+
+    $rule_data{'pattern'} = $rule->{'pattern'};
+    $rule_data{'type'} = $rule->{'type'};
+    $rule_data{'meaning'} = $rule->{'meaning'};
+
+    my $requiresBatchim = $rule->{'requiresBatchim'};
+    $rule_data{'requiresBatchim'} = $requiresBatchim if (defined $requiresBatchim);
+
+    $rule_data{'note'} = $rule->{'note'};
+
+    push @json_data, \%rule_data;
+}
+
+print JSON->new->canonical(0)->encode(\@json_data), "\n";

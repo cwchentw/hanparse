@@ -1,0 +1,19 @@
+#!/bin/sh
+
+CWD=$(CDPATH='' cd -- "$(dirname -- "$0")" && pwd) || exit 1
+
+RULE_FILE="${CWD}/src/rules.json"
+if ! [ -f "$RULE_FILE" ]; then
+    echo "No rule file: $RULE_FILE" >&2
+    exit 1
+fi
+
+JSON_MINIFY="${CWD}/tools/json-minify"
+if ! [ -x "$JSON_MINIFY" ]; then
+    echo "No rule count tool: $JSON_MINIFY" >&2
+    exit 1
+fi
+
+mkdir -p "${CWD}/dist"
+
+"$JSON_MINIFY" "$RULE_FILE" > "${CWD}/dist/rules.json"
