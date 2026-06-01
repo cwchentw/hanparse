@@ -23,8 +23,22 @@ A lightweight, rule-based Korean sentence parser written in TypeScript.
 
 ### Development
 
-- Bun (for dependency management and tooling)
-- Make (for running build, type check, and test tasks)
+- **Bun** (for dependency management and tooling)
+- **Make** (for running build, type-check, and test tasks)
+- **Perl 5.36+** (for running tool scripts)
+- **Carton** (for managing tool script dependencies)
+
+## Install
+
+```shell
+$ cd path/to/hanparse
+$ bun install
+$ carton install
+```
+
+## Usage
+
+Run `make release` and locate the compiled artifact in the `dist/` directory.
 
 ## Design Goals
 
