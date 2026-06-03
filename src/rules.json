@@ -56,6 +56,15 @@
         "note": "Used after nouns ending with a vowel to mark the direct object." 
     },
     {
+        "pattern": "다",
+        "base": "ㄴ다",
+        "type": "grammar",
+        "meaning": "(Declarative ending, plain style)",
+        "note": "Used after verb stems; requires fusion with ㄴ.",
+        "after": "verb stem",
+        "fusionJamo": "ㄴ"
+    },
+    {
         "pattern": "과",
         "type": "grammar",
         "meaning": "and",
@@ -119,25 +128,25 @@
     },
     { 
         "pattern": "다가", 
-        "type": "connective_ending", 
+        "type": "grammar",
         "meaning": "while / transition", 
         "note": "Indicates a transition from one action/state to another during the process." 
     },
     { 
         "pattern": "에다가", 
-        "type": "particle", 
+        "type": "grammar",
         "meaning": "onto / in addition to", 
         "note": "Added to nouns to emphasize a location of an action or an addition to a target." 
     },
     { 
         "pattern": "에게다가", 
-        "type": "particle", 
+        "type": "grammar",
         "meaning": "to (someone)", 
         "note": "Emphasizes the recipient of an action for animate beings." 
     },
     { 
         "pattern": "한테다가", 
-        "type": "particle", 
+        "type": "grammar",
         "meaning": "to (someone, colloquial)", 
         "note": "The colloquial version of 에게다가." 
     },
