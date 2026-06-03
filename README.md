@@ -48,7 +48,6 @@ Run `make release` and locate the compiled artifact in the `dist/` directory.
 
 ## Non-Goals
 
-* Morphological (stem/inflection) analysis
 * Dictionary lookup or semantic understanding
 * Grammar checking or correction
 

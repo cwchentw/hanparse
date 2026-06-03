@@ -1,3 +1,6 @@
+import { postgres } from 'bun';
+import * as hangul from 'hangul-js';
+
 interface Rule {
     pattern: string;
     type: string;
@@ -52,10 +55,24 @@ const buildBucket = (rules: Rule[]): LexiconBucket => {
 let currentBucket = buildBucket(rules);
 
 const lemmatize = (stem: string, peek: Rule) => {
-    let pos = peek.after;
+    const pos = peek.after;
+    const fusionJamo = peek.fusionJamo;
 
-    if (pos.startsWith('verb')) {
-        let base = stem + '다';
+    if (pos.startsWith('verb') || pos.startsWith('adjective')) {
+        let base;
+
+        if (fusionJamo) {
+            const fusedJamo = stem.at(stem.length - 1);
+            const jamos = hangul.disassemble(fusedJamo as string) as string[];
+            const fusionJamos = hangul.disassemble(fusionJamo);
+            const origJamos = jamos.filter(item => !fusionJamos.includes(item));
+            const origJamo = hangul.assemble(origJamos);
+            base = origJamo + '다';
+        }
+        else {
+            base = stem + '다';
+        }
+
         return { pattern: stem, base: base, type: "text", pos: pos };
     }
 
@@ -101,7 +118,8 @@ const parse = (sentence: string) => {
                         const prevChar = sentence[start - 1];
                         if (prevChar && prevChar !== " ") {
                             const hasB = hasBatchim(prevChar);
-                            batchimMatch = (hasB === rule.requiresBatchim);
+                            batchimMatch = ((hasB === rule.requiresBatchim)
+                                            || (hasB !== rule.requiresBatchim && typeof rule.fusionJamo === 'string'));
                         } else {
                             batchimMatch = false; 
                         }

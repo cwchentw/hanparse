@@ -1,7 +1,8 @@
 {
   "dependencies": {
     "@types/node": "^25.6.0",
-    "esbuild": "^0.28.0"
+    "esbuild": "^0.28.0",
+    "hangul-js": "^0.2.6"
   },
   "name": "hanparse",
   "private": true,

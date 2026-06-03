@@ -64,13 +64,38 @@
         "note": "Used after nouns ending with a vowel to mark the direct object."
     },
     {
+        "pattern": "습니다",
+        "type": "grammar",
+        "meaning": "Formal present tense ending used after verb/adjective stems ending with a consonant.",
+        "after": "verb/adjective",
+        "requiresBatchim": true,
+        "note": "Attach to stems with final consonant (받침). Marks present tense in formal speech."
+    },
+    {
+        "pattern": "니다",
+        "base": "ㅂ니다",
+        "type": "grammar",
+        "meaning": "Formal present tense ending used after verb/adjective stems ending with a vowel.",
+        "after": "verb/adjective",
+        "requiresBatchim": false,
+        "fusionJamo": "ㅂ",
+        "note": "Attach to stems without final consonant. The 'ㅂ' fuses with the stem to form 'ㅂ니다'. Marks present tense in formal speech."
+    },
+    {
         "pattern": "다",
         "base": "ㄴ다",
         "type": "grammar",
-        "meaning": "(Declarative ending, plain style)",
-        "note": "Used after verb stems; requires fusion with ㄴ.",
-        "after": "verb stem",
+        "meaning": "Plain declarative ending used after verb stems.",
+        "after": "verb",
+        "note": "Attach to verb stems in plain style. The final 'ㄴ' fuses with the stem to form '는다'. Commonly used in written narration or plain statements.",
         "fusionJamo": "ㄴ"
+    },
+    {
+        "pattern": "다",
+        "type": "grammar",
+        "meaning": "Plain declarative ending used after adjective stems.",
+        "after": "adjective",
+        "note": "Attach directly to adjective stems in plain style. Commonly used in written narration or plain statements."
     },
     {
         "pattern": "과",
