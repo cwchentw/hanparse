@@ -40,6 +40,9 @@ for my $rule (@rules) {
 
     $rule_data{'note'} = $rule->{'note'};
 
+    my $fusionJamo = $rule->{'fusionJamo'};
+    $rule_data{'fusionJamo'} = $fusionJamo if (defined $fusionJamo);
+
     push @json_data, \%rule_data;
 }
 

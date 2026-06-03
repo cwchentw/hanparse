@@ -5,6 +5,7 @@ interface Rule {
     after: string;
     note?: string;
     requiresBatchim?: boolean; // true: needs batchim, false: no batchim, undefined: both
+    fusionJamo?: string;
 }
 
 /**
@@ -52,6 +53,12 @@ let currentBucket = buildBucket(rules);
 
 const lemmatize = (stem: string, peek: Rule) => {
     let pos = peek.after;
+
+    if (pos.startsWith('verb')) {
+        let base = stem + '다';
+        return { pattern: stem, base: base, type: "text", pos: pos };
+    }
+
     return { pattern: stem, type: "text", pos: pos };
 }
 
