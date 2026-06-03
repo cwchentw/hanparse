@@ -2,6 +2,7 @@ interface Rule {
     pattern: string;
     type: string;
     meaning: string;
+    after: string;
     note?: string;
     requiresBatchim?: boolean; // true: needs batchim, false: no batchim, undefined: both
 }
@@ -48,6 +49,11 @@ const buildBucket = (rules: Rule[]): LexiconBucket => {
 };
 
 let currentBucket = buildBucket(rules);
+
+const lemmatize = (stem: string, peek: Rule) => {
+    let pos = peek.after;
+    return { pattern: stem, type: "text", pos: pos };
+}
 
 const parse = (sentence: string) => {
     const results = [];
@@ -114,9 +120,14 @@ const parse = (sentence: string) => {
         }
         
         const textPattern = sentence.substring(i, endText);
-        if (textPattern) {
+        const peek: any = results.at(results.length -1);
+        if (textPattern && peek && typeof peek.after === 'string') {
+            results.push(lemmatize(textPattern, peek))
+        }
+        else if (textPattern) {
             results.push({ pattern: textPattern, type: "text" });
         }
+
         isBound = true;
     }
 

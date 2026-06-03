@@ -33,6 +33,7 @@ for my $rule (@rules) {
     $rule_data{'pattern'} = $rule->{'pattern'};
     $rule_data{'type'} = $rule->{'type'};
     $rule_data{'meaning'} = $rule->{'meaning'};
+    $rule_data{'after'} = $rule->{'after'};
 
     my $requiresBatchim = $rule->{'requiresBatchim'};
     $rule_data{'requiresBatchim'} = $requiresBatchim if (defined $requiresBatchim);
