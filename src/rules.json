@@ -82,6 +82,32 @@
         "note": "Attach to stems without final consonant. The 'ㅂ' fuses with the stem to form 'ㅂ니다'. Marks present tense in formal speech."
     },
     {
+        "pattern": "습니다",
+        "base": "았습니다",
+        "type": "grammar",
+        "meaning": "Formal past tense ending",
+        "after": "verb",
+        "note": "Used after verbs ending with bright vowels (양성모음)",
+        "vowel": "ㅏㅗㅑㅛ",
+        "fusionJamo": "ㅏㅆ"
+    },
+    {
+        "pattern": "습니다",
+        "base": "었습니다",
+        "type": "grammar",
+        "meaning": "Formal past tense ending",
+        "after": "verb",
+        "note": "Used after verbs ending with dark vowels (음성모음)",
+        "fusionJamo": "ㅓㅆ"
+    },
+    {
+        "pattern": "했습니다",
+        "type": "grammar",
+        "meaning": "Formal past tense ending",
+        "after": "verb",
+        "note": "Used after 하다 verb"
+    },
+    {
         "pattern": "다",
         "base": "ㄴ다",
         "type": "grammar",
