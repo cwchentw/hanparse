@@ -55,6 +55,7 @@ const buildBucket = (rules: Rule[]): LexiconBucket => {
 let currentBucket = buildBucket(rules);
 
 const lemmatize = (stem: string, peek: Rule) => {
+    const pattern = peek.pattern;
     const pos = peek.after;
     const fusionJamo = peek.fusionJamo;
 
@@ -70,7 +71,12 @@ const lemmatize = (stem: string, peek: Rule) => {
             base = origJamo + '다';
         }
         else {
-            base = stem + '다';
+            if (pattern.startsWith('했')) {
+                base = stem + '하다';
+            }
+            else {
+                base = stem + '다';
+            }
         }
 
         return { pattern: stem, base: base, type: "text", pos: pos };
