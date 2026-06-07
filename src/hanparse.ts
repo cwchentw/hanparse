@@ -70,19 +70,26 @@ const lemmatize = (stem: string, peek: Rule) => {
 
         if (fusionJamo) {
             const fusedJamo = stem.at(stem.length - 1);
-            const jamos = hangul.disassemble(fusedJamo as string) as string[];
-            const fusionJamos = hangul.disassemble(fusionJamo);
-            let origJamos = jamos.filter(item => !fusionJamos.includes(item));
-            const hasVowels = origJamos.some(item => vowels.includes(item));
-            if (!hasVowels) {
-                if (fusionJamo.startsWith('ㅏ')) {
-                    origJamos.push('ㅏ');
-                }
-                else if (fusionJamo.startsWith('ㅓ')) {
-                    origJamos.push('ㅓ');
-                }
+            let origJamo: string;
+            if (fusedJamo === '았' || fusedJamo === '었') {
+                origJamo = stem.slice(0, -1);
             }
-            const origJamo = hangul.assemble(origJamos);
+            else {
+                const jamos = hangul.disassemble(fusedJamo as string) as string[];
+                const fusionJamos = hangul.disassemble(fusionJamo);
+                let origJamos = jamos.filter(item => !fusionJamos.includes(item));
+                const hasVowels = origJamos.some(item => vowels.includes(item));
+                if (!hasVowels) {
+                    if (fusionJamo.startsWith('ㅏ')) {
+                        origJamos.push('ㅏ');
+                    }
+                    else if (fusionJamo.startsWith('ㅓ')) {
+                        origJamos.push('ㅓ');
+                    }
+                }
+                origJamo = hangul.assemble(origJamos);
+            }
+
             base = origJamo + '다';
         }
         else {
@@ -136,7 +143,7 @@ const parse = (sentence: string) => {
                     const prevChar = sentence[start - 1];
 
                     /* Bright / Dark Vowels Validation. */
-                    if (prevChar && prevChar !== " " && rule.pattern.includes('습니다')) {
+                    if (prevChar && prevChar !== " " && rule.pattern === '습니다') {
                         const jamos = hangul.disassemble(prevChar);
                         const index = jamos.indexOf('ㅆ');
                         if (index > -1) {
@@ -147,14 +154,21 @@ const parse = (sentence: string) => {
                             ruleMatch = ((rule.fusionJamo.includes('ㅏ') || rule.fusionJamo.includes('ㅓ'))
                                         && jamos.some(item => (rule.fusionJamo as string).includes(item)));
                         }
-                    }
+                        else if (index < 0 && typeof rule.requiresBatchim !== 'undefined') {
+                            const hasB = hasBatchim(prevChar);
 
+                            ruleMatch = (hasB === rule.requiresBatchim || hasB !== rule.requiresBatchim);
+                        }
+                        else {
+                            ruleMatch = false;
+                        }
+                    }
                     /* Batchim Validation */
-                    if (typeof rule.requiresBatchim !== 'undefined') {
+                    else if (typeof rule.requiresBatchim !== 'undefined') {
                         if (prevChar && prevChar !== " ") {
                             const hasB = hasBatchim(prevChar);
 
-                            ruleMatch = ((hasB === rule.requiresBatchim)
+                            ruleMatch = (hasB === rule.requiresBatchim
                                         || (hasB !== rule.requiresBatchim && typeof rule.fusionJamo === 'string'));
                         } else {
                             ruleMatch = false;
