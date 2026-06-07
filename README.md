@@ -80,15 +80,16 @@ $ ./bin/hanparse 이것은 무엇이에요?
 
 ## 🤝 Contributing
 
-The primary reason `hanparse` is open-source is that **one person cannot map the entire Korean language alone**. Korean features rich and complex ending particles (Eomi) and postpositions (Josa).
+**Why open-source?**  
+`hanparse` exists because **no single person can cover the entire Korean language**. Ending particles (Eomi) and postpositions (Josa) are too rich and complex.
 
-If you want to add new rules (such as handling `예요`, `ㅂ니다`, etc.), you don't even need to touch the core logic. Simply open the `src/rules.json` file, copy an existing rule object, and adapt it to your needs. Pull Requests for new rules or edge cases are highly welcome!
+**Rules**  
+You don’t need to touch the core code. Just edit `data/rules.json`: copy an existing rule object, adapt it, and submit a PR. The rule scheme is still evolving, so focus on expanding coverage and experimenting. Major changes can be discussed before submission.
 
-Please note that the **rule scheme is not yet finalized**. Current grammatical rules serve as a working prototype to demonstrate parsing behavior, but the structure and naming conventions may change as the project evolves. Contributors are encouraged to focus on expanding coverage and experimenting with improvements, while keeping in mind that rule definitions may be reorganized in future releases. For smoother collaboration, it is recommended to discuss major changes before submitting a PR.
+**Proper nouns**  
+We also keep a small dictionary of proper nouns in `data/proper-noun.csv`. It’s minimal, meant as a proof of concept. Contributors are welcome to add common names, places, or brands—especially those found in beginner-level Korean materials.
 
-In addition to grammatical rules, `hanparse` also maintains a small dictionary of proper nouns (e.g., names, places, brands) located in `proper-noun.csv`.
-
-This dictionary is currently minimal and serves as a proof of concept. Contributors are welcome to submit Pull Requests to expand coverage with commonly used proper nouns, especially those appearing in beginner-level Korean materials. Please keep in mind that the dictionary is not intended to cover the entire Korean lexicon, but rather to provide practical support for parsing basic sentences.
+👉 **No coding required**: If you can read and edit JSON/CSV, you can already contribute.
 
 ## Copyright
 

@@ -36,6 +36,7 @@ let ruleData;
 let properNounData;
 
 if (isNode) {
+    // @ts-expect-error
     const module = await import('./rules.json', { with: { type: 'json' } });
     ruleData = module.default as Rule[];
 
