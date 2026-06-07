@@ -1,0 +1,17 @@
+#!/bin/sh
+
+CWD=$(CDPATH='' cd -- "$(dirname -- "$0")" && pwd) || exit 1
+
+CSV_FILE="${CWD}/proper-noun.csv"
+if ! [ -f "$CSV_FILE" ]; then
+    echo "No CSV file: $CSV_FILE" >&2
+    exit 1
+fi
+
+CONVERTER="${CWD}/tools/csv-to-json"
+if ! [ -x "$CONVERTER" ]; then
+    echo "No CSV converter: $CONVERTER" >&2
+    exit 1
+fi
+
+"$CONVERTER" "$CSV_FILE"

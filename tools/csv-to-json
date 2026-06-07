@@ -1,0 +1,53 @@
+#!/usr/bin/env perl
+
+use v5.36;
+use builtin qw(true false);
+
+use FindBin;
+use local::lib "$FindBin::Bin/../local";
+
+use utf8;
+use open ':std', ':encoding(UTF-8)';
+
+use Text::CSV qw(csv);
+use JSON;
+use Tie::IxHash;
+
+(scalar @ARGV) > 0 or die "No CSV file\n";
+
+my $csv_file = $ARGV[0];
+(-e $csv_file) or die "CSV file not exist: ${csv_file}\n";
+
+my $csv = Text::CSV->new({ binary => 1, auto_diag => 1 });
+
+open my $FH, "<:encoding(utf-8)", $csv_file or die "Unable to open CSV file: ${csv_file}\n";
+
+my $header = false;
+my @csv_data = ();
+while (my $row = $csv->getline($FH)) {
+    if (!$header) {
+        $header = true;
+        next;
+    }
+
+    push @csv_data, $row;
+}
+
+close $FH;
+
+my @json_data = ();
+
+for my $row (@csv_data) {
+    tie my %word_data, 'Tie::IxHash';
+
+    $word_data{'word'} = ${$row}[0];
+    $word_data{'pos'} = ${$row}[1];
+    $word_data{'loanword'} = ${$row}[2];
+    $word_data{'trans'} = ${$row}[3];
+
+    push @json_data, \%word_data;
+}
+
+my $json_data = JSON->new->canonical(0)->encode(\@json_data);
+
+print $json_data, "\n";

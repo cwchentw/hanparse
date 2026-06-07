@@ -10,6 +10,13 @@ interface Rule {
     fusionJamo?: string;
 }
 
+interface Lexicon {
+    word: string;
+    pos: string;
+    loadword?: string;
+    trans: string;
+}
+
 const PROGRAM = 'hanparse';
 const VERSION = '0.1.0';
 
@@ -26,18 +33,28 @@ const hasBatchim = (char: string): boolean => {
 const isNode = typeof process !== 'undefined' && process.versions != null && process.versions.node != null;
 
 let ruleData;
+let properNounData;
 
 if (isNode) {
     const module = await import('./rules.json', { with: { type: 'json' } });
     ruleData = module.default as Rule[];
+
+    // @ts-expect-error
+    const moduleProperNoun = await import('./proper-noun.json', { with: { type: 'json'}});
+    properNounData = moduleProperNoun.default as Lexicon[];
 }
 else {
     const jsonUrl = new URL('./rules.json', import.meta.url).href;
     const response = await fetch(jsonUrl);
     ruleData = await response.json() as Rule[];
+
+    const jsonUrlProperNoun = new URL('./proper-noun.json', import.meta.url).href;
+    const responseProperNoun = await fetch(jsonUrlProperNoun);
+    properNounData = await responseProperNoun.json() as Lexicon[];
 }
 
 const rules: Rule[] = ruleData;
+const properNouns: Lexicon[] = properNounData;
 
 type LexiconBucket = Record<string, Rule[]>;
 
@@ -133,6 +150,24 @@ const parse = (sentence: string) => {
             results.push({ pattern: sentence.substring(i, endSpace), type: "space" });
             isBound = true;
             continue;
+        }
+
+        /* Proper Noun */
+        if (isBound) {
+            for (const properNoun of properNounData) {
+                if (properNoun.word.endsWith(lastChar)) {
+                    let j = i;
+                    while (j > 0 && sentence[j - 1] !== " " && !/[.?!;]/.test(sentence[i-1] as string)) {
+                        j--;
+                    }
+
+                    if (properNoun.word == sentence.substring(j, i)) {
+                        results.push({ pattern: sentence.substring(j, i), type: "noun"});
+                        i = j;
+                        continue;
+                    }
+                }
+            }
         }
 
         /* Grammar Matching with Batchim Validation */
