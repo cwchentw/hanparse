@@ -1,0 +1,23 @@
+#!/bin/sh
+
+if command -v bun >/dev/null 2>&1; then
+    NODE=bun
+fi
+
+if [ -z "$NODE" ] && command -v node >/dev/null 2>&1; then
+    NODE=node
+fi
+
+if [ -z "$NODE" ]; then
+    echo "No Node.js on the system" >&2
+    exit 1
+fi
+
+CWD=$(CDPATH='' cd -- "$(dirname -- "$0")" && pwd) || exit 1
+CLI="${CWD}/../dist/hanparse.js"
+if ! [ -f "$CLI" ]; then
+    echo "No hanparse compiled" >&2
+    exit 1
+fi
+
+"$NODE" "$CLI" "$@"

@@ -220,6 +220,10 @@ const hanparse = Object.freeze({
 if (import.meta.main) {
     const args = process.argv.slice(2);
 
+    if (args.length < 1) {
+        console.error('Usage: hanparse [Korean_Sentence]');
+    }
+
     const sentence = args[0];
     if (typeof sentence === "string") {
         console.log(dev.format(sentence));
