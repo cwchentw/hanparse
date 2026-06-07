@@ -66,8 +66,33 @@ const cases = [
         mustInclude: ["저", "는", "학교", "에", "갑", "니다", "."]
     },
     {
+        input: "저는 학교에 갔습니다.",
+        mustInclude: ["저", "는", "학교", "에", "갔", "습니다", "."],
+        mustIncludeBase: ["가다", "았습니다"]
+    },
+    {
+        input: "한국에서 살았습니다.",
+        mustInclude: ["한국", "에서", "살", "았습니다", "."],
+        mustIncludeBase: ["살다"]
+    },
+    {
+        input: "저는 책을 읽었습니다.",
+        mustInclude: ["저", "는", "책", "을", "읽", "었습니다", "."]
+    },
+    {
+        input: "학생들이 교실에서 섰습니다.",
+        mustInclude: ["학생", "교실", "에서", "섰", "습니다", "."],
+        mustIncludeBase: ["서다", "었습니다"]
+    },
+    {
+        input: "저는 밥을 먹었습니다.",
+        mustInclude: ["저", "는", "밥", "을", "먹", "었습니다", "."],
+        mustIncludeBase: ["먹다"]
+    },
+    {
         input: "회의를 준비했습니다.",
-        mustInclude: ["회의", "를", "준비", "했습니다", "."]
+        mustInclude: ["회의", "를", "준비", "했습니다", "."],
+        mustIncludeBase: ["준비하다"]
     },
     {
         input: "학생이고 친구이고 동료예요.",
@@ -99,7 +124,7 @@ const cases = [
     }
 ];
 
-for (const { input, mustInclude } of cases) {
+for (const { input, mustInclude, mustIncludeBase } of cases) {
     const output = hanparse.dev.format(input);
 
     console.log(input);
@@ -109,6 +134,15 @@ for (const { input, mustInclude } of cases) {
         if (!output.includes(text)) {
             console.error(`Missing expected text: ${text}`);
             process.exit(1);
+        }
+    }
+
+    if (mustIncludeBase) {
+        for (const text of mustIncludeBase) {
+            if (!output.includes(text)) {
+                console.error(`Missing expected base text: ${text}`);
+                process.exit(1);
+            }
         }
     }
 

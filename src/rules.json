@@ -64,14 +64,6 @@
         "note": "Used after nouns ending with a vowel to mark the direct object."
     },
     {
-        "pattern": "습니다",
-        "type": "grammar",
-        "meaning": "Formal present tense ending used after verb/adjective stems ending with a consonant.",
-        "after": "verb/adjective",
-        "requiresBatchim": true,
-        "note": "Attach to stems with final consonant (받침). Marks present tense in formal speech."
-    },
-    {
         "pattern": "니다",
         "base": "ㅂ니다",
         "type": "grammar",
@@ -82,14 +74,27 @@
         "note": "Attach to stems without final consonant. The 'ㅂ' fuses with the stem to form 'ㅂ니다'. Marks present tense in formal speech."
     },
     {
+        "pattern": "았습니다",
+        "type": "grammar",
+        "meaning": "Formal past tense ending",
+        "after": "verb",
+        "note": "Used after verbs ending with bright vowels (양성모음)"
+    },
+    {
         "pattern": "습니다",
         "base": "았습니다",
         "type": "grammar",
         "meaning": "Formal past tense ending",
         "after": "verb",
-        "note": "Used after verbs ending with bright vowels (양성모음)",
-        "vowel": "ㅏㅗㅑㅛ",
-        "fusionJamo": "ㅏㅆ"
+        "fusionJamo": "ㅏㅆ",
+        "note": "Used after verbs ending with bright vowels (양성모음)"
+    },
+    {
+        "pattern": "었습니다",
+        "type": "grammar",
+        "meaning": "Formal past tense ending",
+        "after": "verb",
+        "note": "Used after verbs ending with dark vowels (음성모음)"
     },
     {
         "pattern": "습니다",
@@ -97,8 +102,8 @@
         "type": "grammar",
         "meaning": "Formal past tense ending",
         "after": "verb",
-        "note": "Used after verbs ending with dark vowels (음성모음)",
-        "fusionJamo": "ㅓㅆ"
+        "fusionJamo": "ㅓㅆ",
+        "note": "Used after verbs ending with dark vowels (음성모음)"
     },
     {
         "pattern": "했습니다",

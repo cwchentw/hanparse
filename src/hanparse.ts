@@ -54,6 +54,12 @@ const buildBucket = (rules: Rule[]): LexiconBucket => {
 
 let currentBucket = buildBucket(rules);
 
+const vowels:  string[] = [
+    'ㅏ', 'ㅓ', 'ㅗ', 'ㅜ', 'ㅡ', 'ㅣ', 'ㅐ', 'ㅔ', 'ㅚ', 'ㅟ', 'ㅢ',
+    'ㅑ', 'ㅕ', 'ㅛ', 'ㅠ', 'ㅒ', 'ㅖ',
+    'ㅘ', 'ㅝ', 'ㅙ', 'ㅞ'
+];
+
 const lemmatize = (stem: string, peek: Rule) => {
     const pattern = peek.pattern;
     const pos = peek.after;
@@ -66,7 +72,16 @@ const lemmatize = (stem: string, peek: Rule) => {
             const fusedJamo = stem.at(stem.length - 1);
             const jamos = hangul.disassemble(fusedJamo as string) as string[];
             const fusionJamos = hangul.disassemble(fusionJamo);
-            const origJamos = jamos.filter(item => !fusionJamos.includes(item));
+            let origJamos = jamos.filter(item => !fusionJamos.includes(item));
+            const hasVowels = origJamos.some(item => vowels.includes(item));
+            if (!hasVowels) {
+                if (fusionJamo.startsWith('ㅏ')) {
+                    origJamos.push('ㅏ');
+                }
+                else if (fusionJamo.startsWith('ㅓ')) {
+                    origJamos.push('ㅓ');
+                }
+            }
             const origJamo = hangul.assemble(origJamos);
             base = origJamo + '다';
         }
@@ -117,21 +132,36 @@ const parse = (sentence: string) => {
             for (const rule of currentBucket[lastChar]) {
                 const start = i - rule.pattern.length;
                 if (start >= 0 && sentence.substring(start, i) === rule.pattern) {
-                    
-                    /* Batchim Validation */
-                    let batchimMatch = true;
-                    if (typeof rule.requiresBatchim !== 'undefined') {
-                        const prevChar = sentence[start - 1];
-                        if (prevChar && prevChar !== " ") {
-                            const hasB = hasBatchim(prevChar);
-                            batchimMatch = ((hasB === rule.requiresBatchim)
-                                            || (hasB !== rule.requiresBatchim && typeof rule.fusionJamo === 'string'));
-                        } else {
-                            batchimMatch = false; 
+                    let ruleMatch = true;
+                    const prevChar = sentence[start - 1];
+
+                    /* Bright / Dark Vowels Validation. */
+                    if (prevChar && prevChar !== " " && rule.pattern.includes('습니다')) {
+                        const jamos = hangul.disassemble(prevChar);
+                        const index = jamos.indexOf('ㅆ');
+                        if (index > -1) {
+                            jamos.splice(index, 1);
+                        }
+
+                        if (typeof rule.fusionJamo === 'string') {
+                            ruleMatch = ((rule.fusionJamo.includes('ㅏ') || rule.fusionJamo.includes('ㅓ'))
+                                        && jamos.some(item => (rule.fusionJamo as string).includes(item)));
                         }
                     }
 
-                    if (batchimMatch) {
+                    /* Batchim Validation */
+                    if (typeof rule.requiresBatchim !== 'undefined') {
+                        if (prevChar && prevChar !== " ") {
+                            const hasB = hasBatchim(prevChar);
+
+                            ruleMatch = ((hasB === rule.requiresBatchim)
+                                        || (hasB !== rule.requiresBatchim && typeof rule.fusionJamo === 'string'));
+                        } else {
+                            ruleMatch = false;
+                        }
+                    }
+
+                    if (ruleMatch) {
                         results.push(rule);
                         i = start;
                         isBound = false;
