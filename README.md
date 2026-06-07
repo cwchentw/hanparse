@@ -43,7 +43,29 @@ $ carton install
 
 ## Usage
 
+### Library
+
 Run `make release` and locate the compiled artifact in the `dist/` directory.
+
+### Parser
+
+To compile the parser, run:
+
+```shell
+$ make release
+```
+
+To parse a Korean sentence, run:
+
+```shell
+$ ./bin/hanparse "이것은 무엇이에요?"
+```
+
+You can also omit the quotation marks:
+
+```shell
+$ ./bin/hanparse 이것은 무엇이에요?
+```
 
 ## Design Goals
 
