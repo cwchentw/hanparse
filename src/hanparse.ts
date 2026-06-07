@@ -1,4 +1,3 @@
-import { postgres } from 'bun';
 import * as hangul from 'hangul-js';
 
 interface Rule {
