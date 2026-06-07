@@ -86,6 +86,10 @@ If you want to add new rules (such as handling `예요`, `ㅂ니다`, etc.), you
 
 Please note that the **rule scheme is not yet finalized**. Current grammatical rules serve as a working prototype to demonstrate parsing behavior, but the structure and naming conventions may change as the project evolves. Contributors are encouraged to focus on expanding coverage and experimenting with improvements, while keeping in mind that rule definitions may be reorganized in future releases. For smoother collaboration, it is recommended to discuss major changes before submitting a PR.
 
+In addition to grammatical rules, `hanparse` also maintains a small dictionary of proper nouns (e.g., names, places, brands) located in `proper-noun.csv`.
+
+This dictionary is currently minimal and serves as a proof of concept. Contributors are welcome to submit Pull Requests to expand coverage with commonly used proper nouns, especially those appearing in beginner-level Korean materials. Please keep in mind that the dictionary is not intended to cover the entire Korean lexicon, but rather to provide practical support for parsing basic sentences.
+
 ## Copyright
 
 Copyright (c) 2026 BytBard. Licensed under MIT.
