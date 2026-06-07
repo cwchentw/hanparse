@@ -133,7 +133,7 @@ const cases = [
 ];
 
 for (const { input, mustInclude, mustIncludeBase } of cases) {
-    const output = hanparse.dev.format(input);
+    const output = hanparse.Lexer().lex(input).dev.format();
 
     console.log(input);
     console.log(output);
