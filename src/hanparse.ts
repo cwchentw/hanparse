@@ -91,6 +91,7 @@ const vowels:  string[] = [
 
 const Lexer = (): LexerInstance => {
     let results: object[] = [];
+    let index = 0;
 
     const lemmatize = (stem: string, peek: Rule) => {
         const pattern = peek.pattern;
@@ -257,9 +258,22 @@ const Lexer = (): LexerInstance => {
             isBound = true;
         }
 
-        results.reverse();
-
         return instance;
+    };
+
+    /* TODO: Refactor into a true generator/stream-based iterator.
+       Currently, it reads from a pre-allocated array of reversed tokens.
+       Transitioning to a stream will eliminate the need to analyze the entire sentence 
+       upfront, significantly reducing memory footprint for large texts. */
+    const next = () => {
+        if (index >= results.length) {
+            return { value: null, done: true };
+        }
+
+        const token = results[index];
+        index++;
+
+        return { value: token, done: false };
     };
 
     const addRule = (rule: Rule) => {
@@ -272,12 +286,13 @@ const Lexer = (): LexerInstance => {
 
     const dev = Object.freeze({
         format () {
-            return JSON.stringify(results, null, 2);
+            return JSON.stringify([...results].reverse(), null, 2);
         }
     });
 
     const instance = Object.freeze({
         lex,
+        next,
         addRule,
         getLexicon,
         dev
