@@ -31,7 +31,7 @@ if (import.meta.main) {
         process.exit(1);
     }
 
-    let tokens: string[] = [];;
+    let tokens = [];;
     for (const arg of args) {
         if (arg === '-v' || arg === '--version') {
             printVersion();

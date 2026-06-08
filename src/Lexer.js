@@ -1,5 +1,4 @@
 import * as hangul from 'hangul-js';
-import type { Rule, Token, Lexicon, TokenNextResult, LexerInstance } from './Type';
 
 const isNode = typeof process !== 'undefined' && process.versions != null && process.versions.node != null;
 
@@ -7,41 +6,37 @@ let ruleData;
 let properNounData;
 
 if (isNode) {
-    // @ts-expect-error
     const module = await import('./rules.json', { with: { type: 'json' } });
-    ruleData = module.default as Rule[];
+    ruleData = module.default;
 
-    // @ts-expect-error
     const moduleProperNoun = await import('./proper-noun.json', { with: { type: 'json'}});
-    properNounData = moduleProperNoun.default as Lexicon[];
+    properNounData = moduleProperNoun.default;
 }
 else {
     const jsonUrl = new URL('./rules.json', import.meta.url).href;
     const response = await fetch(jsonUrl);
-    ruleData = await response.json() as Rule[];
+    ruleData = await response.json();
 
     const jsonUrlProperNoun = new URL('./proper-noun.json', import.meta.url).href;
     const responseProperNoun = await fetch(jsonUrlProperNoun);
-    properNounData = await responseProperNoun.json() as Lexicon[];
+    properNounData = await responseProperNoun.json();
 }
 
-const rules: Rule[] = ruleData;
-const properNouns: Lexicon[] = properNounData;
+const rules = ruleData;
+const properNouns = properNounData;
 
 /**
  * Checks if a Korean character has a final consonant (Batchim).
  */
-const hasBatchim = (char: string): boolean => {
+const hasBatchim = (char) => {
     if (!char) return false;
     const code = char.charCodeAt(0);
     if (code < 0xAC00 || code > 0xD7A3) return false;
     return (code - 0xAC00) % 28 !== 0;
 };
 
-type LexiconBucket = Record<string, Rule[]>;
-
-const buildBucket = (rules: Rule[]): LexiconBucket => {
-    const bucket: LexiconBucket = {};
+const buildBucket = (rules) => {
+    const bucket = {};
     rules.forEach(rule => {
         const lastChar = rule.pattern.slice(-1);
         if (!bucket[lastChar]) bucket[lastChar] = [];
@@ -55,17 +50,17 @@ const buildBucket = (rules: Rule[]): LexiconBucket => {
 
 let currentBucket = buildBucket(rules);
 
-const vowels:  string[] = [
+const vowels = [
     'ㅏ', 'ㅓ', 'ㅗ', 'ㅜ', 'ㅡ', 'ㅣ', 'ㅐ', 'ㅔ', 'ㅚ', 'ㅟ', 'ㅢ',
     'ㅑ', 'ㅕ', 'ㅛ', 'ㅠ', 'ㅒ', 'ㅖ',
     'ㅘ', 'ㅝ', 'ㅙ', 'ㅞ'
 ];
 
-const Lexer = (): LexerInstance => {
-    let results: Token[] = [];
+const Lexer = () => {
+    let results = [];
     let index = 0;
 
-    const lemmatize = (stem: string, peek: Rule) => {
+    const lemmatize = (stem, peek) => {
         const pattern = peek.pattern;
         const pos = peek.after;
         const fusionJamo = peek.fusionJamo;
@@ -75,12 +70,12 @@ const Lexer = (): LexerInstance => {
 
             if (fusionJamo) {
                 const fusedJamo = stem.at(stem.length - 1);
-                let origJamo: string;
+                let origJamo;
                 if (fusedJamo === '았' || fusedJamo === '었') {
                     origJamo = stem.slice(0, -1);
                 }
                 else {
-                    const jamos = hangul.disassemble(fusedJamo as string) as string[];
+                    const jamos = hangul.disassemble(fusedJamo);
                     const fusionJamos = hangul.disassemble(fusionJamo);
                     let origJamos = jamos.filter(item => !fusionJamos.includes(item));
                     const hasVowels = origJamos.some(item => vowels.includes(item));
@@ -112,7 +107,7 @@ const Lexer = (): LexerInstance => {
         return { pattern: stem, type: "text", pos: pos };
     }
 
-    const lex = (source: string) => {
+    const lex = (source) => {
         results = [];
 
         let i = source.length;
@@ -144,7 +139,7 @@ const Lexer = (): LexerInstance => {
                 for (const noun of properNouns) {
                     if (noun.word.endsWith(lastChar)) {
                         let j = i;
-                        while (j > 0 && source[j - 1] !== " " && !/[.?!;]/.test(source[i-1] as string)) {
+                        while (j > 0 && source[j - 1] !== " " && !/[.?!;]/.test(source[i-1])) {
                             j--;
                         }
 
@@ -176,7 +171,7 @@ const Lexer = (): LexerInstance => {
 
                             if (typeof rule.fusionJamo === 'string') {
                                 ruleMatch = ((rule.fusionJamo.includes('ㅏ') || rule.fusionJamo.includes('ㅓ'))
-                                            && jamos.some(item => (rule.fusionJamo as string).includes(item)));
+                                            && jamos.some(item => (rule.fusionJamo).includes(item)));
                             }
                             else if (index < 0 && typeof rule.requiresBatchim !== 'undefined') {
                                 const hasB = hasBatchim(prevChar);
@@ -214,12 +209,12 @@ const Lexer = (): LexerInstance => {
 
             /* Text Fallback */
             const endText = i;
-            while (i > 0 && source[i - 1] !== " " && !/[.?!;]/.test(source[i-1] as string)) {
+            while (i > 0 && source[i - 1] !== " " && !/[.?!;]/.test(source[i-1])) {
                 i--;
             }
         
             const textPattern = source.substring(i, endText);
-            const peek: any = results.at(results.length -1);
+            const peek = results.at(results.length -1);
             if (textPattern && peek && typeof peek.after === 'string') {
                 results.push(lemmatize(textPattern, peek))
             }
@@ -237,22 +232,22 @@ const Lexer = (): LexerInstance => {
        Currently, it reads from a pre-allocated array of reversed tokens.
        Transitioning to a stream will eliminate the need to analyze the entire sentence 
        upfront, significantly reducing memory footprint for large texts. */
-    const next = (): TokenNextResult => {
+    const next = () => {
         if (index >= results.length) {
-            return { value: null, done: true } as const;
+            return { value: null, done: true };
         }
 
         const token = results[index];
         index++;
 
         if (typeof token === 'undefined') {
-            return { value: null, done: true } as const;
+            return { value: null, done: true };
         }
 
-        return { value: token, done: false } as const;
+        return { value: token, done: false };
     };
 
-    const addRule = (rule: Rule) => {
+    const addRule = (rule) => {
         rules.push({ ...rule });
         currentBucket = buildBucket(rules);
     };

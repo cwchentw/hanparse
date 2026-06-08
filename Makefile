@@ -6,18 +6,14 @@ endif
 
 SRCDIR := src
 OUTDIR := dist
-ENTRY := src/hanparse.ts
-TSC := bunx tsc
+ENTRY := src/hanparse.js
 ESBUILD := bunx esbuild
 
 .PHONY: all build release debug smoke demo types typecheck json-minify proper-noun clean
 
 all: release
 
-build: typecheck
-	$(TSC) -p tsconfig.json
-
-release: json-minify proper-noun types typecheck
+release: json-minify proper-noun
 	$(ESBUILD) $(ENTRY) --outdir=$(OUTDIR) --format=esm --minify --bundle \
 		--external:./rules.json --external:./proper-noun.json
 
@@ -28,12 +24,6 @@ smoke: release
 
 demo: release
 	bun test/hanparse.demo.js
-
-types:
-	$(TSC) --emitDeclarationOnly
-
-typecheck:
-	$(TSC) --noEmit -p tsconfig.json
 
 json-minify:
 	./json-minify
