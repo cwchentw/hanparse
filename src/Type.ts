@@ -8,6 +8,10 @@ export interface Rule {
     fusionJamo?: string;
 }
 
+export interface Token extends Pick<Rule, 'pattern' | 'type'> {
+    base?: string;
+}
+
 export interface Lexicon {
     word: string;
     pos: string;

@@ -1,5 +1,5 @@
 import * as hangul from 'hangul-js';
-import type { Rule, Lexicon, LexerInstance } from './Type';
+import type { Rule, Token, Lexicon, LexerInstance } from './Type';
 
 const isNode = typeof process !== 'undefined' && process.versions != null && process.versions.node != null;
 
@@ -62,7 +62,7 @@ const vowels:  string[] = [
 ];
 
 const Lexer = (): LexerInstance => {
-    let results: object[] = [];
+    let results: Token[] = [];
     let index = 0;
 
     const lemmatize = (stem: string, peek: Rule) => {
