@@ -139,14 +139,14 @@ const Lexer = (): LexerInstance => {
         return { pattern: stem, type: "text", pos: pos };
     }
 
-    const lex = (sentence: string) => {
+    const lex = (source: string) => {
         results = [];
 
-        let i = sentence.length;
+        let i = source.length;
         let isBound = false;
 
         while (i > 0) {
-            const lastChar = sentence[i - 1];
+            const lastChar = source[i - 1];
             if (typeof lastChar === 'undefined') break;
 
             /* Punctuation */
@@ -160,8 +160,8 @@ const Lexer = (): LexerInstance => {
             /* Spaces */
             if (lastChar === " ") {
                 const endSpace = i;
-                while (i > 0 && sentence[i - 1] === " ") i--;
-                results.push({ pattern: sentence.substring(i, endSpace), type: "space" });
+                while (i > 0 && source[i - 1] === " ") i--;
+                results.push({ pattern: source.substring(i, endSpace), type: "space" });
                 isBound = true;
                 continue;
             }
@@ -171,12 +171,12 @@ const Lexer = (): LexerInstance => {
                 for (const properNoun of properNounData) {
                     if (properNoun.word.endsWith(lastChar)) {
                         let j = i;
-                        while (j > 0 && sentence[j - 1] !== " " && !/[.?!;]/.test(sentence[i-1] as string)) {
+                        while (j > 0 && source[j - 1] !== " " && !/[.?!;]/.test(source[i-1] as string)) {
                             j--;
                         }
 
-                        if (properNoun.word == sentence.substring(j, i)) {
-                            results.push({ pattern: sentence.substring(j, i), type: "noun"});
+                        if (properNoun.word == source.substring(j, i)) {
+                            results.push({ pattern: source.substring(j, i), type: "noun"});
                             i = j;
                             continue;
                         }
@@ -189,9 +189,9 @@ const Lexer = (): LexerInstance => {
             if (isBound && currentBucket[lastChar]) {
                 for (const rule of currentBucket[lastChar]) {
                     const start = i - rule.pattern.length;
-                    if (start >= 0 && sentence.substring(start, i) === rule.pattern) {
+                    if (start >= 0 && source.substring(start, i) === rule.pattern) {
                         let ruleMatch = true;
-                        const prevChar = sentence[start - 1];
+                        const prevChar = source[start - 1];
 
                         /* Bright / Dark Vowels Validation. */
                         if (prevChar && prevChar !== " " && rule.pattern === '습니다') {
@@ -241,11 +241,11 @@ const Lexer = (): LexerInstance => {
 
             /* Text Fallback */
             const endText = i;
-            while (i > 0 && sentence[i - 1] !== " " && !/[.?!;]/.test(sentence[i-1] as string)) {
+            while (i > 0 && source[i - 1] !== " " && !/[.?!;]/.test(source[i-1] as string)) {
                 i--;
             }
         
-            const textPattern = sentence.substring(i, endText);
+            const textPattern = source.substring(i, endText);
             const peek: any = results.at(results.length -1);
             if (textPattern && peek && typeof peek.after === 'string') {
                 results.push(lemmatize(textPattern, peek))
