@@ -19,8 +19,21 @@ export interface Lexicon {
     trans: string;
 }
 
+interface TokenNextResultSuccess {
+    value: Token;
+    done: false;
+}
+
+interface TokenNextResultDone {
+    value: null;
+    done: true;
+}
+
+export type TokenNextResult = TokenNextResultSuccess | TokenNextResultDone;
+
 export interface LexerInstance {
     lex: (sentence: string) => LexerInstance;
+    next: () => TokenNextResult;
     addRule: (rule: Rule) => void;
     getLexicon: () => Rule[];
     dev: {

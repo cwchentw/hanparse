@@ -1,5 +1,5 @@
 import * as hangul from 'hangul-js';
-import type { Rule, Token, Lexicon, LexerInstance } from './Type';
+import type { Rule, Token, Lexicon, TokenNextResult, LexerInstance } from './Type';
 
 const isNode = typeof process !== 'undefined' && process.versions != null && process.versions.node != null;
 
@@ -237,15 +237,19 @@ const Lexer = (): LexerInstance => {
        Currently, it reads from a pre-allocated array of reversed tokens.
        Transitioning to a stream will eliminate the need to analyze the entire sentence 
        upfront, significantly reducing memory footprint for large texts. */
-    const next = () => {
+    const next = (): TokenNextResult => {
         if (index >= results.length) {
-            return { value: null, done: true };
+            return { value: null, done: true } as const;
         }
 
         const token = results[index];
         index++;
 
-        return { value: token, done: false };
+        if (typeof token === 'undefined') {
+            return { value: null, done: true } as const;
+        }
+
+        return { value: token, done: false } as const;
     };
 
     const addRule = (rule: Rule) => {
