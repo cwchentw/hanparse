@@ -141,14 +141,14 @@ const Lexer = (): LexerInstance => {
 
             /* Proper Noun */
             if (isBound) {
-                for (const properNoun of properNounData) {
-                    if (properNoun.word.endsWith(lastChar)) {
+                for (const noun of properNouns) {
+                    if (noun.word.endsWith(lastChar)) {
                         let j = i;
                         while (j > 0 && source[j - 1] !== " " && !/[.?!;]/.test(source[i-1] as string)) {
                             j--;
                         }
 
-                        if (properNoun.word == source.substring(j, i)) {
+                        if (noun.word == source.substring(j, i)) {
                             results.push({ pattern: source.substring(j, i), type: "noun"});
                             i = j;
                             continue;
