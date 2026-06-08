@@ -17,8 +17,9 @@ all: release
 build: typecheck
 	$(TSC) -p tsconfig.json
 
-release: types typecheck json-minify proper-noun
-	$(ESBUILD) $(ENTRY) --outdir=$(OUTDIR) --format=esm --minify
+release: json-minify proper-noun types typecheck
+	$(ESBUILD) $(ENTRY) --outdir=$(OUTDIR) --format=esm --minify --bundle \
+		--external:./rules.json --external:./proper-noun.json
 
 debug: build
 
