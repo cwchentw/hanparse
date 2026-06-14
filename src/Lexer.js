@@ -137,13 +137,13 @@ const Lexer = () => {
             /* Proper Noun */
             if (isBound) {
                 for (const noun of properNouns) {
-                    if (noun.word.endsWith(lastChar)) {
+                    if (noun.hangul.endsWith(lastChar)) {
                         let j = i;
                         while (j > 0 && source[j - 1] !== " " && !/[.?!;]/.test(source[i-1])) {
                             j--;
                         }
 
-                        if (noun.word == source.substring(j, i)) {
+                        if (noun.hangul == source.substring(j, i)) {
                             results.push({ pattern: source.substring(j, i), type: "noun"});
                             i = j;
                             continue;

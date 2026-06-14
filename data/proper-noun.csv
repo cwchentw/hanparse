@@ -1,6 +1,7 @@
-word,pos,loanword,trans
-대만,noun,臺灣,Taiwan
-한국,noun,韓國,Korea
-일본,noun,日本,Japan
-중국,noun,中國,China
-미국,noun,美國,the United States
+hangul,hanja,pos,loanword,trans
+대만,臺灣,noun,,Taiwan
+한국,韓國,noun,,Korea
+일본,日本,noun,,Japan
+중국,中國,noun,,China
+미국,美國,noun,,the United States
+,,,
