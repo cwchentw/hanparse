@@ -56,6 +56,10 @@ const vowels = [
     'ㅘ', 'ㅝ', 'ㅙ', 'ㅞ'
 ];
 
+const isBrightVerb = (char) => {
+    return char === 'ㅏ' || char === 'ㅗ' || char === 'ㅑ' || char === 'ㅛ';
+};
+
 const Lexer = () => {
     let results = [];
     let index = 0;
@@ -167,16 +171,21 @@ const Lexer = () => {
                         const prevChar = source[start - 1];
 
                         /* Bright / Dark Vowels Validation. */
-                        if (prevChar && prevChar !== " " && rule.pattern === '습니다') {
+                        if (prevChar && prevChar === '있') {
+                            /* Pass. */
+                        }
+                        else if (prevChar && prevChar !== " " && rule.pattern === '습니다') {
                             const jamos = hangul.disassemble(prevChar);
                             const index = jamos.indexOf('ㅆ');
-                            if (index > -1) {
-                                jamos.splice(index, 1);
-                            }
 
                             if (typeof rule.fusionJamo === 'string') {
-                                ruleMatch = ((rule.fusionJamo.includes('ㅏ') || rule.fusionJamo.includes('ㅓ'))
-                                            && jamos.some(item => (rule.fusionJamo).includes(item)));
+                                const fusionJamos = hangul.disassemble(rule.fusionJamo);
+                                ruleMatch = ((jamos.some(item => isBrightVerb(item))
+                                                && fusionJamos.some(item => isBrightVerb(item))
+                                                && jamos.some(item => (rule.fusionJamo).includes(item)))
+                                            || (!jamos.some(item => isBrightVerb(item))
+                                                && !fusionJamos.some(item => isBrightVerb(item))
+                                                && jamos.some(item => (rule.fusionJamo).includes(item))));
                             }
                             else if (index < 0 && typeof rule.requiresBatchim !== 'undefined') {
                                 const hasB = hasBatchim(prevChar);
