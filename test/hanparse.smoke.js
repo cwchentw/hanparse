@@ -67,11 +67,18 @@ const cases = [
     },
     {
         input: "저는 밥을 먹습니다.",
-        mustInclude: ["저", "는", "밥", "을", "먹", "습니다", "."]
+        mustInclude: ["저", "는", "밥", "을", "먹", "습니다", "."],
+        mustInbludeBase: ["먹다"]
+    },
+    {
+        input: "함부르크는 독일에 있습니다.",
+        mustInclude: ["함부르크", "는", "독일", "에", "있", "습니다", "."],
+        mustInbludeBase: ["있다"]
     },
     {
         input: "저는 학교에 갑니다.",
-        mustInclude: ["저", "는", "학교", "에", "갑", "니다", "."]
+        mustInclude: ["저", "는", "학교", "에", "갑", "니다", "."],
+        mustInbludeBase: ["가다"]
     },
     {
         input: "저는 학교에 갔습니다.",
