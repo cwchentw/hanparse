@@ -170,10 +170,11 @@ const Lexer = () => {
                         let ruleMatch = true;
                         const prevChar = source[start - 1];
 
-                        /* Bright / Dark Vowels Validation. */
+                        /* 있다 */
                         if (prevChar && prevChar === '있') {
                             /* Pass. */
                         }
+                        /* Bright / Dark Vowels Validation. */
                         else if (prevChar && prevChar !== " " && rule.pattern === '습니다') {
                             const jamos = hangul.disassemble(prevChar);
                             const index = jamos.indexOf('ㅆ');
