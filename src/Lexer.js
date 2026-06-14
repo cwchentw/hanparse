@@ -90,7 +90,12 @@ const Lexer = () => {
                     origJamo = hangul.assemble(origJamos);
                 }
 
-                base = origJamo + '다';
+                if (stem.length <= 1) {
+                    base = origJamo + '다';
+                }
+                else {
+                    base = stem.slice(0, -1) + origJamo + '다';
+                }
             }
             else {
                 if (pattern.startsWith('했')) {
