@@ -126,14 +126,6 @@ const Lexer = () => {
             const lastChar = source[i - 1];
             if (typeof lastChar === 'undefined') break;
 
-            /* Punctuation */
-            if (/[.?!;]/.test(lastChar)) {
-                results.push({ pattern: lastChar, type: "punctuation" });
-                i--;
-                isBound = true;
-                continue;
-            }
-
             /* Spaces */
             if (lastChar === " ") {
                 const endSpace = i;
@@ -212,7 +204,9 @@ const Lexer = () => {
                         if (ruleMatch) {
                             results.push(rule);
                             i = start;
-                            isBound = false;
+                            /* grammar + punctuation is normal among Korean sentences.
+                               Lexing both continuously is needed. */
+                            isBound = rule.type === "punctuation" ? true : false;
                             matched = true;
                             break;
                         }
@@ -224,7 +218,10 @@ const Lexer = () => {
 
             /* Text Fallback */
             const endText = i;
-            while (i > 0 && source[i - 1] !== " " && !/[.?!;]/.test(source[i-1])) {
+            while (/* Beginning of text. */ i > 0
+                   && /* Space */ source[i - 1] !== " "
+                   && /* Punctuation */ !/[.?!,]/.test(source[i-1]))
+            {
                 i--;
             }
         

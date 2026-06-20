@@ -1,5 +1,33 @@
 [
     {
+        "pattern": ".",
+        "type": "punctuation",
+        "meaning": "statement terminator",
+        "after": "predicate",
+        "note": "Marks the end of a declarative sentence."
+    },
+    {
+        "pattern": "?",
+        "type": "punctuation",
+        "meaning": "interrogative terminator",
+        "after": "predicate",
+        "note": "Indicates the sentence is a question, signaling rising intonation or inquiry."
+    },
+    {
+        "pattern": "!",
+        "type": "punctuation",
+        "meaning": "exclamative terminator",
+        "after": "predicate",
+        "note": "Used to express strong emotion, emphasis, or exclamation at the end of a sentence."
+    },
+    {
+        "pattern": ",",
+        "type": "punctuation",
+        "meaning": "clause separator",
+        "after": "clause",
+        "note": "Separates clauses or items in a list, improving readability and structure."
+    },
+    {
         "pattern": "은",
         "type": "grammar",
         "meaning": "(Topic particle)",
