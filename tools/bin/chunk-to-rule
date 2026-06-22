@@ -1,0 +1,32 @@
+#!/bin/sh
+
+if ! command -v md2chunk >/dev/null 2>&1; then
+    echo "ChunkSpec is not installed on the system" >&2
+    exit 1
+fi
+
+CWD=$(CDPATH='' cd -- "$(dirname -- "$0")" && pwd) || exit 1
+
+convert="${CWD}/../libexec/chunk-to-rule"
+if ! [ -x "$convert" ]; then
+    echo "No ChunkSpec to Rule converter: $convert" >&2
+    exit 1
+fi
+
+json_file=$(mktemp --suffix=.json) || exit 1
+trap 'test -n "$json_file" && rm -f "$json_file"' EXIT INT TERM
+
+corpus="${CWD}/../../data/rules.md"
+if ! [ -f "$corpus" ]; then
+    echo "No corpus found: $corpus" >&2
+    exit 1
+fi
+
+if ! md2chunk "$corpus" > "$json_file"; then
+    echo "Failed to convert ChunkSpec to JSON" >&2
+    exit 1
+fi
+
+mkdir -p "${CWD}/../../dist"
+
+exec "$convert" "$json_file" > "${CWD}/../../dist/rules.json"

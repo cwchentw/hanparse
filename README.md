@@ -32,6 +32,7 @@ Contributions are welcome to help extend parsing rules and enhance performance.
 - **Make** (for running build, type-check, and test tasks)
 - **Perl 5.36+** (for running tool scripts)
 - **Carton** (for managing tool script dependencies)
+- [ChunkSpec](https://github.com/cwchentw/chunk-spec) (for grammar rules)
 
 ## Install
 
@@ -84,12 +85,14 @@ $ ./bin/hanparse 이것은 무엇이에요?
 `hanparse` exists because **no single person can cover the entire Korean language**. Ending particles (Eomi) and postpositions (Josa) are too rich and complex.
 
 **Rules**  
-You don’t need to touch the core code. Just edit `data/rules.json`: copy an existing rule object, adapt it, and submit a PR. The rule scheme is still evolving, so focus on expanding coverage and experimenting. Major changes can be discussed before submission.
+You don’t need to touch the core code. Just edit `data/rules.md`: copy an existing rule object, adapt it, and submit a PR. The rule scheme is still evolving, so focus on expanding coverage and experimenting. Major changes can be discussed before submission.
+
+We migrated the grammar rules from JSON to [ChunkSpec](https://github.com/cwchentw/chunk-spec) embedded in Markdown to eliminate redundant boilerplate.
 
 **Proper nouns**  
 We also keep a small dictionary of proper nouns in `data/proper-noun.csv`. It’s minimal, meant as a proof of concept. Contributors are welcome to add common names, places, or brands—especially those found in beginner-level Korean materials.
 
-👉 **No coding required**: If you can read and edit JSON/CSV, you can already contribute.
+👉 **No coding required**: If you can read and edit Markdown/CSV, you can already contribute.
 
 ## Copyright
 

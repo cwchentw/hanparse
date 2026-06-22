@@ -13,7 +13,7 @@ ESBUILD := bunx esbuild
 
 all: release
 
-release: json-minify proper-noun
+release: chunk-to-rule proper-noun
 	$(ESBUILD) $(ENTRY) --outdir=$(OUTDIR) --format=esm --minify --bundle \
 		--external:./rules.json --external:./proper-noun.json
 
@@ -25,8 +25,8 @@ smoke: release
 demo: release
 	bun test/hanparse.demo.js
 
-json-minify:
-	./json-minify
+chunk-to-rule:
+	./tools/bin/chunk-to-rule
 
 proper-noun:
 	mkdir -p $(OUTDIR)
