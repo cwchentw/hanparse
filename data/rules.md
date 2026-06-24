@@ -2,7 +2,7 @@
 
 ## Punctuations
 
-```chunkspec
+```chunk
 <predicate>,.&type=punctuation&meaning=statement terminator
 &note=Marks the end of a declarative sentence.;
 <predicate>,?&type=punctuation&meaning=interrogative terminator
@@ -15,7 +15,7 @@
 
 ## Particles
 
-```chunkspec
+```chunk
 <noun>,은&type=grammar&meaning=(Topic particle)&requiresBatchim=true
 &note=Used after nouns ending with a consonant to indicate the topic or contrast.;
 <noun>,는&type=grammar&meaning=(Topic particle)&requiresBatchim=false
@@ -32,7 +32,7 @@
 &note=Shows possession',' equivalent to ''s or ''of'' in English.;
 ```
 
-```chunkspec
+```chunk
 <noun>,에서&type=grammar&meaning=at / from
 &note=Indicates the location where an action takes place or a starting point.;
 <noun>,에&type=grammar&meaning=to / at / on
@@ -66,7 +66,7 @@
 
 ## Ending
 
-```chunkspec
+```chunk
 <noun>,입니다&type=grammar&meaning=Formal present tense ending&note=Used after nouns;
 <verb|adjective>,니다&base=ㅂ니다&type=grammar&meaning=Formal present tense ending
 &requiresBatchim=false&note='Attach to verb/adjective without final consonant.'&fusionJamo=ㅂ;
