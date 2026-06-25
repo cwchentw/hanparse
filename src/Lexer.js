@@ -79,9 +79,17 @@ const Lexer = () => {
                     origJamo = stem.slice(0, -1);
                 }
                 else {
-                    const jamos = hangul.disassemble(fusedJamo);
+                    const jamos = hangul.disassemble(fusedJamo).reverse();
                     const fusionJamos = hangul.disassemble(fusionJamo);
-                    let origJamos = jamos.filter(item => !fusionJamos.includes(item));
+                    let removed = false;
+                    let origJamos = jamos.filter(item => {
+                        if (!removed) {
+                            removed = true;
+                            return !fusionJamos.includes(item);
+                        }
+
+                        return true;
+                    });
                     const hasVowels = origJamos.some(item => vowels.includes(item));
                     if (!hasVowels) {
                         if (fusionJamo.startsWith('ㅏ')) {
@@ -91,7 +99,7 @@ const Lexer = () => {
                             origJamos.push('ㅓ');
                         }
                     }
-                    origJamo = hangul.assemble(origJamos);
+                    origJamo = hangul.assemble(origJamos.reverse());
                 }
 
                 if (stem.length <= 1) {
