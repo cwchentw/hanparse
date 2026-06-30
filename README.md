@@ -1,24 +1,26 @@
 # hanparse
 
-A lightweight, rule-based Korean sentence parser written in TypeScript.
+A lightweight, rule-based Korean sentence parser written in JavaScript.
 
 ## Overview
 
 `hanparse` is designed to parse Korean sentences using a deterministic, rule-driven approach based on a classic **maximum-matching (longest chunk) algorithm**. It runs entirely on the client side or edge environments, with no backend or heavy AI dependencies.
-
-### Project Status
-
-`hanparse` is in an early but active development stage. The parser currently implements around 30+ core grammatical rules, enabling it to handle basic Korean sentence patterns and demonstrate the underlying architecture.
-
-A preliminary lemmatization system is included, though the tool is not yet ready for practical use. Ongoing work focuses on expanding rule coverage, refining lemmatization accuracy, and improving usability to move toward a production-ready parser.
-
-Contributions are welcome to help extend parsing rules and enhance performance.
 
 ## Features
 
 * **Deterministic Parsing:** Predictable behavior with 100% consistent structural analysis.
 * **Ultra-Lightweight & Edge-Ready:** Zero heavy dependencies and **no external dictionary required**. Perfect for frontend browsers or constrained edge runtimes (e.g., Cloudflare Workers, Vercel Edge Functions).
 * **Extensible Rule System:** Rules are centralized at the top of the codebase. You can easily add new grammatical patterns without touching the core matching logic.
+
+## Project Status
+
+This project is a proof of concept (PoC). A purely rule‑based human language parser is not a universal pattern and cannot be applied to most languages. After consideration, this project will not be developed into a real tool but remains a conceptual demonstration.
+
+The parser currently implements around 30+ core grammatical rules, enabling it to handle basic Korean sentence patterns and demonstrate the underlying architecture.
+
+A preliminary lemmatization system is included, showing how rule‑based parsing could be extended, though the tool is not intended for practical use. The existing implementation illustrates rule coverage, lemmatization accuracy, and usability considerations as part of the concept.
+
+Contributions are welcome if anyone wishes to experiment further with parsing rules or performance enhancements, but the project itself is not planned for production development.
 
 ## System Requirements
 
